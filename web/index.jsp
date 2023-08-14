@@ -19,6 +19,10 @@
         $("#add").click(function (){
           addOrUpdateUser("addUser");
         })
+
+        $("#update").click(function (){
+          addOrUpdateUser("updateUser");
+        })
       })
 
 
@@ -53,6 +57,23 @@
         })
       }
 
+      // 把选择要更新的数据带到上方的table表格中
+      function preUpdateUser(userid){
+         var arr = new Array();
+         //m 遍历选中行的用户数据
+         $('#'+userid).closest("tr").children().each(function (index,ele){
+           if(index <= 4){
+             arr[index] = ele.innerText;
+           }
+         })
+         $("#id").val(arr[0]);
+         $("#id").attr("readonly",true);
+         $("#username").val(arr[1]);
+         $("#password").val(arr[2]);
+         $("#salary").val(arr[3]);
+         $("#birthday").val(arr[4]);
+      }
+
       // 遍历用户数据，拼接成HTML
       function listUser(obj){
         var str = "";
@@ -63,7 +84,7 @@
                   "<td id='"+this.password+"'>"+ this.password +"</td>" +
                   "<td id='"+this.salary+"'>"+ this.salary +"</td>" +
                   "<td id='"+this.birthday+"'>"+ this.birthday +"</td>" +
-                  "<td><a href='#'>更新</a><a href='#'>删除</a></td></tr>"
+                  "<td><a href='#' onclick='preUpdateUser("+this.id+")'>更新</a><a href='#'>删除</a></td></tr>"
         })
         $("#tBody").prepend(str);
       }

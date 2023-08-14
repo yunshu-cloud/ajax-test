@@ -2,7 +2,6 @@
   <artifact type="exploded-war" name="ajax-test:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/ajax_test_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="ajax-test/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="ajax-test" />
@@ -12,6 +11,7 @@
           <element id="file-copy" path="/Volumes/Driver/尚学堂作业/lib/lib/fastjson-1.2.69.jar" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="ajax-test/web/Web" />
     </root>
   </artifact>
 </component>

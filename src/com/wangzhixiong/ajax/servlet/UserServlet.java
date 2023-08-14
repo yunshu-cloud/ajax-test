@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 用户管理servlet
@@ -61,7 +65,41 @@ public class UserServlet extends HttpServlet
             this.getData(req,resp);
         }else if ("addUser".equals(flag)){
             addUser(req,resp);
+        }else if ("updateUser".equals(flag)){
+            updateUser(req,resp);
         }
+    }
+
+    /**
+     * 更新用户
+     * @param req
+     * @param resp
+     */
+    private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException
+    {
+        User user = this.createUser(req);
+        ServletContext servletContext = getServletContext();
+        List<User> list = (List<User>)servletContext.getAttribute("list");
+
+        // 把list转成map
+        Map<String, User> userMap = list.stream().collect(Collectors.toMap(User::getId, Function.identity()));
+
+        User user1 = userMap.get(user.getId());
+        list.remove(user1);
+        list.add(user);
+        list.sort(new Comparator<User>()
+        {
+            @Override
+            public int compare(User o1, User o2)
+            {
+                return Integer.parseInt(o1.getId() )- Integer.parseInt(o2.getId());
+            }
+        });
+        resp.setContentType("text/plain;charset=utf-8");
+        PrintWriter writer = resp.getWriter();
+        writer.println("更新成功");
+        writer.flush();
+        writer.close();
     }
 
     /**
