@@ -20,9 +20,11 @@
           addOrUpdateUser("addUser");
         })
 
+        // 更新用户
         $("#update").click(function (){
           addOrUpdateUser("updateUser");
         })
+
       })
 
 
@@ -84,9 +86,21 @@
                   "<td id='"+this.password+"'>"+ this.password +"</td>" +
                   "<td id='"+this.salary+"'>"+ this.salary +"</td>" +
                   "<td id='"+this.birthday+"'>"+ this.birthday +"</td>" +
-                  "<td><a href='#' onclick='preUpdateUser("+this.id+")'>更新</a><a href='#'>删除</a></td></tr>"
+                  "<td><a href='#' onclick='preUpdateUser("+this.id+")'>更新</a>&nbsp;&nbsp;<a href='#' onclick='deleteUser("+this.id+")'>删除</a></td></tr>"
         })
         $("#tBody").prepend(str);
+      }
+
+
+      // 删除指定用户
+      function deleteUser(userid){
+        // $("#"+userid).closest("tr").remove();
+        $.post("user.do",{userid:userid,flag:"delete"},function (result){
+          alert(result);
+        })
+        // getData();
+        location.reload();
+
       }
     </script>
 

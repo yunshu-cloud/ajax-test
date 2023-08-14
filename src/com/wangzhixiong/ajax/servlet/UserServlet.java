@@ -2,6 +2,7 @@ package com.wangzhixiong.ajax.servlet;
 
 import com.alibaba.fastjson.JSON;
 import com.wangzhixiong.ajax.pojo.User;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -67,7 +68,36 @@ public class UserServlet extends HttpServlet
             addUser(req,resp);
         }else if ("updateUser".equals(flag)){
             updateUser(req,resp);
+        }else if ("delete".equals(flag)){
+            deleteUser(req,resp);
         }
+    }
+
+    /**
+     * 删除指定用户
+     * @param req
+     * @param resp
+     */
+    private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException
+    {
+        ServletContext servletContext = getServletContext();
+        List<User> list = (List<User>) servletContext.getAttribute("list");
+        String userid = req.getParameter("userid");
+
+        // 把list转成map
+        Map<String, User> userMap = list.stream().collect(Collectors.toMap(User::getId, Function.identity()));
+
+        if(StringUtils.isNotEmpty(userid)){
+            User user = userMap.get(userid);
+            list.remove(user);
+        }
+
+        resp.setContentType("text/plain;charset=utf-8");
+        PrintWriter writer = resp.getWriter();
+        writer.println("删除成功");
+        writer.flush();
+        writer.close();
+
     }
 
     /**
