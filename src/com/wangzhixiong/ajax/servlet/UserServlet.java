@@ -59,7 +59,48 @@ public class UserServlet extends HttpServlet
         String flag = req.getParameter("flag");
         if("getData".equals(flag)){
             this.getData(req,resp);
+        }else if ("addUser".equals(flag)){
+            addUser(req,resp);
         }
+    }
+
+    /**
+     * 添加用户
+     * @param req
+     * @param resp
+     */
+    private void addUser(HttpServletRequest req, HttpServletResponse resp) throws IOException
+    {
+        req.setCharacterEncoding("utf-8");
+        User user = this.createUser(req);
+        ServletContext servletContext = this.getServletContext();
+        List<User> list = (List<User>)servletContext.getAttribute("list");
+        list.add(user);
+        resp.setContentType("text/plain;charset=utf-8");
+        PrintWriter writer = resp.getWriter();
+        writer.println("添加成功");
+        writer.flush();
+        writer.close();
+
+    }
+
+
+    private User createUser(HttpServletRequest req)
+    {
+        String userid = req.getParameter("userid");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String salary = req.getParameter("salary");
+        String birthday = req.getParameter("birthday");
+
+        User user = new User();
+        user.setId(userid);
+        user.setUserName(username);
+        user.setBirthday(birthday);
+        user.setSalary(Double.parseDouble(salary));
+        user.setBirthday(birthday);
+        user.setPassword(password);
+        return user;
     }
 
     @Override

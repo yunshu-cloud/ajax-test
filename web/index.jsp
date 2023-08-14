@@ -14,7 +14,36 @@
       $(function (){
          // 初始化用户数据
         getData();
+
+        // 添加用户
+        $("#add").click(function (){
+          addOrUpdateUser("addUser");
+        })
       })
+
+
+      // 获取页面输入的用户数据
+      function addOrUpdateUser(flag){
+        var userid = $("#id").val();
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var salary = $("#salary").val();
+        var birthday = $("#birthday").val();
+
+        var data = {
+          userid : userid,
+          username : username,
+          password : password,
+          salary : salary,
+          birthday : birthday,
+          flag : flag
+        };
+
+        $.get("user.do",data,function (result){
+          alert(result);
+          location.reload();
+        })
+      }
 
 
       // 初始化用户数据
